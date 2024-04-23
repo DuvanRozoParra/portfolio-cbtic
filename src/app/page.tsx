@@ -1,4 +1,7 @@
+
+
 import { Metadata } from "next";
+import { Landing } from "@/components/landing"
 
 export const metadata: Metadata = {
   title: "Home",
@@ -6,5 +9,7 @@ export const metadata: Metadata = {
 };
 
 export default function Home() {
-  return <section></section>;
+  return <section className="w-screen h-screen">
+    <Landing/>
+  </section>;
 }

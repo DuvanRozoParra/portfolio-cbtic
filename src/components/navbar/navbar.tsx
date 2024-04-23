@@ -3,8 +3,10 @@
 import React, { useState } from "react";
 import { motion, useAnimate } from "framer-motion";
 import Link from "next/link";
-import { useWindows } from "@/hooks";
+// import { useWindows } from "@/hooks";
 import { ButtonNavbar } from "@/components/navbar";
+
+const useWindows = 1024
 
 const ItemsLinks = [
   {
@@ -58,7 +60,7 @@ const variantsUL = {
 export const Navbar = () => {
   const [isOpen, toggleOpen] = useState<boolean>(false);
   const [scope, animate] = useAnimate();
-  const windowsW = useWindows();
+  const windowsW = 1024;
   return (
     <motion.nav
       className={`${
