@@ -4,30 +4,43 @@ Command: npx gltfjsx@6.2.16 text.glb -t -f -T -s
 Files: text.glb [59.48KB] > C:\Users\unime\OneDrive\Documentos\Semillero de investigacion\portfolio-cbtic\public\Models\cbtic\text-transformed.glb [4.83KB] (92%)
 */
 
-import * as THREE from 'three'
-import React, { useRef } from 'react'
-import { useGLTF } from '@react-three/drei'
-import { GLTF } from 'three-stdlib'
+import * as THREE from "three";
+import React, { useRef } from "react";
+import { useGLTF } from "@react-three/drei";
+import { GLTF } from "three-stdlib";
 
 type GLTFResult = GLTF & {
   nodes: {
-    CBTic: THREE.Mesh
-  }
+    CBTic: THREE.Mesh;
+  };
   materials: {
-    ['Material.002']: THREE.MeshStandardMaterial
-  }
+    ["Material.002"]: THREE.MeshStandardMaterial;
+  };
   // animations: GLTFAction[]
-}
+};
 
-type ContextType = Record<string, React.ForwardRefExoticComponent<JSX.IntrinsicElements['mesh']>>
+type ContextType = Record<
+  string,
+  React.ForwardRefExoticComponent<JSX.IntrinsicElements["mesh"]>
+>;
 
-export function Text(props: JSX.IntrinsicElements['group']) {
-  const { nodes, materials } = useGLTF('/Models/cbtic/text-transformed.glb') as GLTFResult
+export function Text(props: JSX.IntrinsicElements["group"]) {
+  const { nodes, materials } = useGLTF(
+    "/Models/cbtic/text-transformed.glb"
+  ) as GLTFResult;
+
+  const blackMaterial = new THREE.MeshBasicMaterial({ color: 0x000000 });
   return (
     <group {...props} dispose={null} scale={5}>
-      <mesh castShadow receiveShadow geometry={nodes.CBTic.geometry} material={materials['Material.002']} rotation={[Math.PI / 2, 0, 0]} />
+      <mesh
+        castShadow
+        receiveShadow
+        geometry={nodes.CBTic.geometry}
+        material={blackMaterial}
+        rotation={[Math.PI / 2, 0, 0]}
+      />
     </group>
-  )
+  );
 }
 
-useGLTF.preload('/Models/cbtic/text-transformed.glb')
+useGLTF.preload("/Models/cbtic/text-transformed.glb");
