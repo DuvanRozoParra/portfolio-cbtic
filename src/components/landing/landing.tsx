@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef } from "react";
+import { useMemo, useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import {
   Trail,
@@ -10,12 +10,22 @@ import {
   Stars,
   OrbitControls,
   Sky,
+  Environment,
 } from "@react-three/drei";
 import { EffectComposer, Bloom } from "@react-three/postprocessing";
 
 import { Atoms } from "@/components/landing";
-import { Text } from "@/models/landing";
+import { Text, Nave } from "@/models/landing";
 import { Interactive, XR, Controllers, VRButton } from "@react-three/xr";
+
+function Floor() {
+  return (
+    <mesh rotation={[-Math.PI / 2, 0, 0]}>
+      <planeGeometry args={[40, 40]} />
+      <meshStandardMaterial transparent opacity={0}/>
+    </mesh>
+  );
+}
 
 export const Landing = () => {
   return (
@@ -23,20 +33,17 @@ export const Landing = () => {
       <VRButton />
       <Canvas>
         <XR>
-          <Float speed={4} rotationIntensity={1} floatIntensity={2}>
-            <Atoms position={[-3.7, 0, 0]} scale={0.8} />
-          </Float>
-          <Text />
-          <EffectComposer>
-            <Bloom mipmapBlur luminanceThreshold={1} radius={0.7} />
-          </EffectComposer>
           <Sky sunPosition={[0, 1, 0]} />
-          <mesh rotation={[-Math.PI / 2, 0, 0]}>
-            <planeGeometry args={[40, 40]} />
-            <meshStandardMaterial color="#666" />
-          </mesh>
+          <Nave/>
+          <Environment background preset="city" blur={1}/>
+          <Floor />
           <ambientLight />
           <pointLight position={[10, 10, 10]} />
+          <Float speed={4} rotationIntensity={1} floatIntensity={2} position={[0,2,-4]}>
+            <Atoms position={[-3.7, 0, 0]} scale={0.8} />
+          </Float>
+          <Text position={[0,2,-4]}/>
+          <OrbitControls/>
           <Controllers />
         </XR>
 
