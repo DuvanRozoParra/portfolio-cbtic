@@ -83,7 +83,3 @@ jobs:
           }    
           Write-Output "Iniciando el trabajo '$jobName'..."
           Start-Job -Name $jobName {npm run start}
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
