@@ -5,6 +5,7 @@ import { motion, useAnimate } from "framer-motion";
 import Link from "next/link";
 // import { useWindows } from "@/hooks";
 import { ButtonNavbar } from "@/components/navbar";
+import { Icons } from "@/components/ui/icons";
 
 const useWindows = 1024
 
@@ -62,16 +63,17 @@ export const Navbar = () => {
   const [scope, animate] = useAnimate();
   const windowsW = 1024;
   return (
+    <main className="flex items-end justify-center bg-[#f8f8f8] h-[10%]">
     <motion.nav
       className={`${
         windowsW <= 750
           ? "px-py flex-col"
-          : "px-3 py-2 flex-row items-center h-12"
-      } border-b-4 border-red-500 flex justify-center w-svw overflow-hidden`}
+          : "px-3 py-2 flex-rows items-center h-12 gap-4"
+      } border-b-4 border-red-500 flex justify-center w-11/12 overflow-hidden`}
       initial={false}
       animate={windowsW <= 750 ? (isOpen ? "open" : "closed") : "open"}
     >
-      <div className="flex flex-row w-1/2 items-center">
+      <div className="flex flex-row items-center">
         {windowsW <= 750 && (
           <ButtonNavbar
             className="py-px"
@@ -94,7 +96,7 @@ export const Navbar = () => {
             }}
           />
         )}
-        LOGO
+        <Icons.atom />
       </div>
       <motion.ul
         ref={scope}
@@ -103,7 +105,7 @@ export const Navbar = () => {
           windowsW <= 750
             ? "flex-col h-0 opacity-0 rounded-md px-3"
             : "flex-row items-center justify-center h-full space-x-3"
-        } font-bold w-full`}
+        } font-bold`}
       >
         {ItemsLinks.map((item) => (
           <motion.li
@@ -120,5 +122,6 @@ export const Navbar = () => {
         ))}
       </motion.ul>
     </motion.nav>
+    </main>
   );
 };

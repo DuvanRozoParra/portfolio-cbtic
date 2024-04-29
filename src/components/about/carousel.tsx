@@ -18,12 +18,12 @@ import {
 
 export function CarouselAbout() {
   return (
-    <section className="w-full h-full bg-blue-600 flex flex-col items-center justify-center">
+    <section className="w-full h-full bg-[#f8f8f8] flex flex-col items-center justify-center">
       <Carousel
         opts={{
           align: "start",
         }}
-        className="w-3/5 h-3/4 flex flex-col items-center justify-center"
+        className="w-4/5 h-3/4 flex flex-col items-center justify-center"
       >
         <CarouselContent className="bg-red-500">
           {Array.from({ length: 12 }).map((_, index) => (
