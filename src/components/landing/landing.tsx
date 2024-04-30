@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useRef, useState } from "react";
+import * as THREE from "three";
 import { Canvas, useFrame } from "@react-three/fiber";
 import {
   Trail,
@@ -11,21 +12,19 @@ import {
   OrbitControls,
   Sky,
   Environment,
+  Box,
 } from "@react-three/drei";
 import { EffectComposer, Bloom } from "@react-three/postprocessing";
-
 import { Atoms } from "@/components/landing";
 import { Text, Nave } from "@/models/landing";
-import { Interactive, XR, Controllers, VRButton } from "@react-three/xr";
-
-function Floor() {
-  return (
-    <mesh rotation={[-Math.PI / 2, 0, 0]}>
-      <planeGeometry args={[40, 40]} />
-      <meshStandardMaterial transparent opacity={0}/>
-    </mesh>
-  );
-}
+import {
+  Interactive,
+  XR,
+  Controllers,
+  VRButton,
+  Hands,
+  RayGrab,
+} from "@react-three/xr";
 
 export const Landing = () => {
   return (
@@ -33,22 +32,39 @@ export const Landing = () => {
       <VRButton />
       <Canvas>
         <XR>
-          <Sky sunPosition={[0, 1, 0]} />
-          <Nave/>
-          <Environment background preset="city" blur={1}/>
-          <Floor />
+          {/* <Sky sunPosition={[0, 1, 0]} /> */}
+          <color attach="background" args={["black"]} />
+          <group scale={0.5} position={[0, 1, -5]}>
+            <Nave />
+            <Text position={[0, 2, -4]} />
+            <Float
+              speed={4}
+              rotationIntensity={1}
+              floatIntensity={2}
+              position={[0, 2, -4]}
+            >
+              <Atoms position={[-3.7, 0, 0]} scale={0.8} />
+            </Float>
+            <RayGrab>
+              <Box />
+            </RayGrab>
+          </group>
+          <Environment preset="city" blur={1} />
           <ambientLight />
           <pointLight position={[10, 10, 10]} />
-          <Float speed={4} rotationIntensity={1} floatIntensity={2} position={[0,2,-4]}>
-            <Atoms position={[-3.7, 0, 0]} scale={0.8} />
-          </Float>
-          <Text position={[0,2,-4]}/>
-          <OrbitControls/>
+          <Hands />
+          <Stars
+            radius={100}
+            depth={50}
+            count={5000}
+            factor={4}
+            saturation={0}
+            fade
+            speed={1}
+          />
+          <OrbitControls />
           <Controllers />
         </XR>
-
-        {/* <color attach="background" args={['black']} /> 
-      <Stars saturation={0} count={400} speed={0.5} />  */}
       </Canvas>
     </>
   );
