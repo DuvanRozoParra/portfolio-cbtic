@@ -97,7 +97,10 @@ export const Navbar = () => {
               }}
             />
           )}
-          <Button className="hover:bg-red-500 bg-transparent text-black hover:text-white" asChild>
+          <Button
+            className="hover:bg-red-500 bg-transparent text-black hover:text-white"
+            asChild
+          >
             <Link href={"/"} title={"Home"}>
               <Icons.atom />
             </Link>
@@ -117,7 +120,7 @@ export const Navbar = () => {
               key={item.title}
               className={`${
                 windowsW <= 750 ? "py-3" : ""
-              } hover:bg-red-500 hover:text-white hover:rounded-md px-1`}
+              } hover:bg-red-500 hover:text-white hover:rounded-md px-4 py-2`}
               variants={VarianstLinks}
             >
               <Link href={item.url} title={item.title}>
