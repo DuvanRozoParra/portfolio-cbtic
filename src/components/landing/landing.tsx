@@ -1,40 +1,50 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
-import * as THREE from "three";
-import { Canvas, useFrame } from "@react-three/fiber";
-import {
-  Trail,
-  Float,
-  Line,
-  Sphere,
-  Stars,
-  OrbitControls,
-  Sky,
-  Environment,
-  Box,
-} from "@react-three/drei";
-import { EffectComposer, Bloom } from "@react-three/postprocessing";
-import { Atoms } from "@/components/landing";
+import { Canvas } from "@react-three/fiber";
+import { Float, Stars, OrbitControls, Environment } from "@react-three/drei";
+import { Physics } from "@react-three/cannon";
+import { Atoms, BoxGrab, HandsVR, PlaneGrab } from "@/components/landing";
 import { Text, Nave } from "@/models/landing";
-import {
-  Interactive,
-  XR,
-  Controllers,
-  VRButton,
-  Hands,
-  RayGrab,
-} from "@react-three/xr";
+import { XR, Controllers, VRButton, Hands } from "@react-three/xr";
+import { useFaraday } from "@/store";
+import { ButtonXR } from "@/components/shared";
+import * as THREE from "three";
+
+const arrayXR = [
+  {
+    text: "Aumentar campo",
+    onClick: () => {
+      useFaraday.getState().updateData("field", true, [0, 10]);
+    },
+  },
+  {
+    text: "Disminuir campo",
+    onClick: () => {
+      useFaraday.getState().updateData("field", true, [0, 10]);
+    },
+  },
+  {
+    text: "Aumentar frecuencia",
+    onClick: () => {
+      useFaraday.getState().updateData("frecuency", true, [0, 10]);
+    },
+  },
+  {
+    text: "Disminuir frecuencia",
+    onClick: () => {
+      useFaraday.getState().updateData("frecuency", true, [0, 10]);
+    },
+  },
+];
 
 export const Landing = () => {
   return (
     <>
       <VRButton />
-      <Canvas>
+      <Canvas shadows>
         <XR>
-          {/* <Sky sunPosition={[0, 1, 0]} /> */}
           <color attach="background" args={["black"]} />
-          <group scale={0.5} position={[0, 1, -5]}>
+          <group scale={0.42} position={[0, 2.3, -5]}>
             <Nave />
             <Text position={[0, 2, -4]} />
             <Float
@@ -45,14 +55,35 @@ export const Landing = () => {
             >
               <Atoms position={[-3.7, 0, 0]} scale={0.8} />
             </Float>
-            <RayGrab>
-              <Box />
-            </RayGrab>
+            <Physics
+              gravity={[0, -25, 0]}
+              iterations={20}
+              defaultContactMaterial={{
+                friction: 0.1,
+              }}
+            >
+               
+              <Hands />
+              {/* 
+              <HandsVR />
+              <BoxGrab position={[0, 0, 15]} /> 
+              */}
+              <PlaneGrab
+                rotation={[(270 * Math.PI) / 180, 0, 0]}
+                position={[0, -4.5, 0]}
+              />
+            </Physics>
           </group>
+          {/* <HtmlCanvas height={5} width={5} color="">
+            <Inputs
+              title="Frecuencia"
+              onValue={useFaraday.getState().updateFrecuency}
+            />
+            <Inputs title="Campo" onValue={useFaraday.getState().updateField} />
+          </HtmlCanvas> */}
           <Environment preset="city" blur={1} />
           <ambientLight />
           <pointLight position={[10, 10, 10]} />
-          <Hands />
           <Stars
             radius={100}
             depth={50}

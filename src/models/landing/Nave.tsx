@@ -59,7 +59,7 @@ export function Nave(props: JSX.IntrinsicElements["group"]) {
   const wall2 = useMaterials(
     "Models/cbtic/texture/wall/",
     "MetalPlates001_2K",
-    5,
+    10,
     true,
     { normalScale: new THREE.Vector2(5, 5), metalness: 1 }
   );
@@ -87,7 +87,7 @@ export function Nave(props: JSX.IntrinsicElements["group"]) {
   const floor1 = useMaterials(
     "Models/cbtic/texture/floor/",
     "DiamondPlate008C_2K",
-    15,
+    30,
     true,
     { color: new THREE.Color(0.541, 0.541, 0.541) }
   )
