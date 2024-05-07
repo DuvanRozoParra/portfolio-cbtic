@@ -29,16 +29,18 @@ export function Text(props: JSX.IntrinsicElements["group"]) {
     "/Models/cbtic/text-transformed.glb"
   ) as GLTFResult;
 
-  const blackMaterial = new THREE.MeshBasicMaterial({ color: 0x000000 });
+  // const blackMaterial = new THREE.MeshBasicMaterial({ color: 0x000000 });
   return (
     <group {...props} dispose={null} scale={5}>
       <mesh
         castShadow
         receiveShadow
         geometry={nodes.CBTic.geometry}
-        material={blackMaterial}
+        // material={blackMaterial}
         rotation={[Math.PI / 2, 0, 0]}
-      />
+      >
+        <meshBasicMaterial color={new THREE.Color(1,1,1)} />
+      </mesh>
     </group>
   );
 }

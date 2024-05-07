@@ -6,28 +6,29 @@ import Link from "next/link";
 // import { useWindows } from "@/hooks";
 import { ButtonNavbar } from "@/components/navbar";
 import { Icons } from "@/components/ui/icons";
+import { Button } from "../ui/button";
 
-const useWindows = 1024
+const useWindows = 1024;
 
 const ItemsLinks = [
   {
     title: "Profesores",
-    url: "/teachers",
+    url: "/",
   },
   {
     title: "Asignaturas",
-    url: "/courses",
+    url: "/",
   },
   {
     title: "Asesorias",
-    url: "/consultancies",
+    url: "/",
   },
   {
     title: "Eventos",
     url: "/events",
   },
   {
-    title: "Quienes Somos?",
+    title: "¿Quienes Somos?",
     url: "/about",
   },
 ];
@@ -64,64 +65,68 @@ export const Navbar = () => {
   const windowsW = 1024;
   return (
     <main className="flex items-end justify-center bg-[#f8f8f8] h-[10%]">
-    <motion.nav
-      className={`${
-        windowsW <= 750
-          ? "px-py flex-col"
-          : "px-3 py-2 flex-rows items-center h-12 gap-4"
-      } border-b-4 border-red-500 flex justify-center w-11/12 overflow-hidden`}
-      initial={false}
-      animate={windowsW <= 750 ? (isOpen ? "open" : "closed") : "open"}
-    >
-      <div className="flex flex-row items-center">
-        {windowsW <= 750 && (
-          <ButtonNavbar
-            className="py-px"
-            onClick={() => {
-              toggleOpen((state) => {
-                if (!state)
-                  animate(scope.current, {
-                    opacity: 1,
-                    height: "auto",
-                    padding: "12px 5px",
-                  });
-                else
-                  animate(scope.current, {
-                    opacity: 1,
-                    height: 0,
-                    padding: "0px 0px",
-                  });
-                return !state;
-              });
-            }}
-          />
-        )}
-        <Icons.atom />
-      </div>
-      <motion.ul
-        ref={scope}
-        variants={variantsUL}
-        className={`flex ${
+      <motion.nav
+        className={`${
           windowsW <= 750
-            ? "flex-col h-0 opacity-0 rounded-md px-3"
-            : "flex-row items-center justify-center h-full space-x-3"
-        } font-bold`}
+            ? "px-py flex-col"
+            : "px-3 py-2 flex-rows items-center h-12 gap-4"
+        } border-b-4 border-red-500 flex justify-center w-11/12 overflow-hidden`}
+        initial={false}
+        animate={windowsW <= 750 ? (isOpen ? "open" : "closed") : "open"}
       >
-        {ItemsLinks.map((item) => (
-          <motion.li
-            key={item.title}
-            className={`${
-              windowsW <= 750 ? "py-3" : ""
-            } hover:bg-red-500 hover:text-white hover:rounded-md px-1`}
-            variants={VarianstLinks}
-          >
-            <Link href={item.url} title={item.title}>
-              {item.title}
+        <div className="flex flex-row items-center">
+          {windowsW <= 750 && (
+            <ButtonNavbar
+              className="py-px hover:bg-red-500"
+              onClick={() => {
+                toggleOpen((state) => {
+                  if (!state)
+                    animate(scope.current, {
+                      opacity: 1,
+                      height: "auto",
+                      padding: "12px 5px",
+                    });
+                  else
+                    animate(scope.current, {
+                      opacity: 1,
+                      height: 0,
+                      padding: "0px 0px",
+                    });
+                  return !state;
+                });
+              }}
+            />
+          )}
+          <Button className="hover:bg-red-500 bg-transparent text-black hover:text-white" asChild>
+            <Link href={"/"} title={"Home"}>
+              <Icons.atom />
             </Link>
-          </motion.li>
-        ))}
-      </motion.ul>
-    </motion.nav>
+          </Button>
+        </div>
+        <motion.ul
+          ref={scope}
+          variants={variantsUL}
+          className={`flex ${
+            windowsW <= 750
+              ? "flex-col h-0 opacity-0 rounded-md px-3"
+              : "flex-row items-center justify-center h-full space-x-3"
+          } font-bold`}
+        >
+          {ItemsLinks.map((item) => (
+            <motion.li
+              key={item.title}
+              className={`${
+                windowsW <= 750 ? "py-3" : ""
+              } hover:bg-red-500 hover:text-white hover:rounded-md px-1`}
+              variants={VarianstLinks}
+            >
+              <Link href={item.url} title={item.title}>
+                {item.title}
+              </Link>
+            </motion.li>
+          ))}
+        </motion.ul>
+      </motion.nav>
     </main>
   );
 };

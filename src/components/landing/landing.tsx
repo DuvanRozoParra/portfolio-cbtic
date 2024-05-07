@@ -41,17 +41,17 @@ export const Landing = () => {
   return (
     <>
       <VRButton />
-      <Canvas shadows>
+      <Canvas shadows camera={{ position: [0,4,10]}}>
         <XR>
           <color attach="background" args={["black"]} />
           <group scale={0.42} position={[0, 2.3, -5]}>
             <Nave />
-            <Text position={[0, 2, -4]} />
+            <Text position={[0, 2, 19]} />
             <Float
               speed={4}
               rotationIntensity={1}
               floatIntensity={2}
-              position={[0, 2, -4]}
+              position={[0, 2, 19]}
             >
               <Atoms position={[-3.7, 0, 0]} scale={0.8} />
             </Float>

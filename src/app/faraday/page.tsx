@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 };
 
 export default function Home() {
-  return <section className="w-screen h-screen">
+  return <section className="w-full h-full">
     <LawFaradayPage />
   </section>;
 }
