@@ -9,6 +9,7 @@ import { useGLTF } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { GLTF } from "three-stdlib";
 import { Interactive } from "@react-three/xr";
+import { BoxCollider } from "@/models/LawFaraday"
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -88,6 +89,7 @@ export function LawFaradayModel(props: JSX.IntrinsicElements["group"]) {
   const prevNumberFields = useRef<number>(0);
   const refFields = useRef<THREE.Mesh>(null!);
   const [renderFields, setFields] = useState<number>(0);
+
   const showLess = () => {
     if (renderFields > 1) {
       setFields(renderFields - 1);
@@ -108,11 +110,14 @@ export function LawFaradayModel(props: JSX.IntrinsicElements["group"]) {
       refFields.current.rotation.x = 0;
     else refFields.current.rotation.x = (180 * Math.PI) / 180;
   });
+
   const { nodes, materials } = useGLTF(
     "/Models/lawfaraday/desktopAndInteractividad.glb"
   ) as GLTFResult;
+
   return (
     <group {...props} dispose={null}>
+
       <mesh
         castShadow
         receiveShadow
@@ -229,11 +234,12 @@ export function LawFaradayModel(props: JSX.IntrinsicElements["group"]) {
         rotation={[-Math.PI, 0.976, -Math.PI]}
         scale={0.494}
       />
+      <group rotation={[0,-90 * Math.PI / 180,0]}>
 
       <Interactive onSelect={showMore}>
         <group
-          position={[-0.914, 1.126, -0.645]}
-          rotation={[Math.PI / 2, -0.035, -Math.PI / 2]}
+          position={[2, 1.126, -1.5]}
+          rotation={[Math.PI / 2, -0.035, 90 * Math.PI / 180]}
           scale={[0.266, 0.021, 0.109]}
         >
           <mesh
@@ -252,8 +258,8 @@ export function LawFaradayModel(props: JSX.IntrinsicElements["group"]) {
       </Interactive>
       <Interactive onSelect={showLess}>
         <group
-          position={[-0.892, 1.111, -0.997]}
-          rotation={[Math.PI / 2, -0.035, -Math.PI / 2]}
+          position={[1.978, 1.115, -2.4]}
+          rotation={[Math.PI / 2, -0.035, 90 * Math.PI / 180]}
           scale={0.052}
         >
           <mesh
@@ -270,6 +276,7 @@ export function LawFaradayModel(props: JSX.IntrinsicElements["group"]) {
           />
         </group>
       </Interactive>
+      </group>
 
       <group
         position={[0.105, 0.02, -0.12]}

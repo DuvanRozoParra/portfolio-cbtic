@@ -3,7 +3,7 @@
 import { Canvas } from "@react-three/fiber";
 import { Float, Stars, OrbitControls, Environment } from "@react-three/drei";
 import { Physics } from "@react-three/cannon";
-import { Atoms, BoxGrab, HandsVR, PlaneGrab } from "@/components/landing";
+import { Atoms, HandsVR, PlaneGrab } from "@/components/landing";
 import { Text, Nave } from "@/models/landing";
 import { XR, Controllers, VRButton, Hands } from "@react-three/xr";
 import { useFaraday } from "@/store";
