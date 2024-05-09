@@ -18,8 +18,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Navbar />
-        <main className="w-svw h-svh">{children}</main>
+        <main className="w-full h-screen">
+          <Navbar />
+          <main className="w-full h-[90%] bg-[#f8f8f8]">{children}</main>
+        </main>
       </body>
     </html>
   );
