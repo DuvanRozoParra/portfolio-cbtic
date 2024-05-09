@@ -1,19 +1,30 @@
 "use client";
 
-import { Canvas } from "@react-three/fiber";
-import { Float, Stars, OrbitControls, Environment } from "@react-three/drei";
-import { Physics } from "@react-three/cannon";
-import { Atoms, BoxGrab, HandsVR, PlaneGrab } from "@/components/landing";
-import { Text, Nave } from "@/models/landing";
-import { XR, Controllers, VRButton, Hands } from "@react-three/xr";
-import { useFaraday } from "@/store";
-import { ButtonXR } from "@/components/shared";
+import { ViewVR } from "@/layout/ViewVR";
+import { LawFaradayModel } from "@/models/LawFaraday";
+import { CubesDynamic, TableCubesDymanic } from "@/components/shared/objectDynamic";
 import * as THREE from "three";
-
-import { LawFaradayModel } from "@/models/LawFaraday"
+import { useBox } from "@react-three/cannon";
 
 export const LawFaradayPage = () => {
   return (
+    <ViewVR>
+      <LawFaradayModel
+        position={[0, 0.2, -1]}
+        rotation={[0, (-90 * Math.PI) / 180, 0]}
+        scale={0.48}
+      /> 
+      <group >
+        {Array.from({ length: 6 }).map((item, index) => ( // [0,0.5,2]
+          <CubesDynamic key={"cube" + index} position={[0,0.8 + 0.2 * index,1.2]}  />
+        ))}
+      </group>
+      <TableCubesDymanic/>
+    </ViewVR>
+  );
+};// 2.3,-0.8,0
+
+/*
     <>
       <VRButton />
       <Canvas shadows>
@@ -40,10 +51,10 @@ export const LawFaradayPage = () => {
             >
                
               <Hands />
-              {/* 
+               
               <HandsVR />
               <BoxGrab position={[0, 0, 15]} /> 
-              */}
+              
               <PlaneGrab
                 rotation={[(270 * Math.PI) / 180, 0, 0]}
                 position={[0, -4.5, 0]}
@@ -67,5 +78,4 @@ export const LawFaradayPage = () => {
         </XR>
       </Canvas>
     </>
-  );
-};
+    */

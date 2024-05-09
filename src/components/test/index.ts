@@ -1,0 +1,1 @@
+// export { HandsCollidersCanvas } from "@/components/test/collidersMap";
