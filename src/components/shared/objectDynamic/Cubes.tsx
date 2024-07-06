@@ -8,7 +8,7 @@ type TCubesProps = MeshProps;
 export const CubesDynamic = ({ ...props }) => {
   const [ref] = useBox(() => ({
     args: [0.1, 0.1, 0.1],
-    // mass: 1,
+    mass: 1,
     ...props,
   }));
 
