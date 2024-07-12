@@ -1,0 +1,1 @@
+export { LawFaradayPage } from "@/components/LawFaraday/LawFaraday"
