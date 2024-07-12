@@ -1,0 +1,1 @@
+export { CubesDynamic, TableCubesDymanic } from "@/components/shared/objectDynamic/Cubes"
