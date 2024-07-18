@@ -75,4 +75,4 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
   );
 }
 
-useGLTF.preload(PATH_LAW_FARADAY + "/iman-transformed.glb");
+
