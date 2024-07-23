@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { LawFaradayPage } from "@/components/LawFaraday"
+import { LawFaradayPage } from "@/components/LawFaraday";
 
 export const metadata: Metadata = {
   title: "Home",
@@ -7,7 +7,9 @@ export const metadata: Metadata = {
 };
 
 export default function Home() {
-  return <section className="w-full h-full">
-    <LawFaradayPage />
-  </section>;
+  return (
+    <section className="w-full h-full">
+      <LawFaradayPage />
+    </section>
+  );
 }
