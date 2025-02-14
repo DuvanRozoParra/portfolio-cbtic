@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Chart from "chart.js/auto";
 
-const PendulumSimulator = () => {
+export const PendulumSimulator = () => {
 
    // Estados para el péndulo y la simulación
   const [amplitude, setAmplitude] = useState(0.1); // Amplitud en grados
@@ -763,5 +763,3 @@ const PendulumSimulator = () => {
     </div>
   );
 };
-
-export default PendulumSimulator;
