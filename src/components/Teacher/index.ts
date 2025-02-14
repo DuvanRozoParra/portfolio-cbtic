@@ -1,0 +1,1 @@
+export {TeacherAbout} from "@/components/Teacher/teacher";
