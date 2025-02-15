@@ -5,7 +5,7 @@ import Chart from "chart.js/auto";
 
 export const PendulumSimulator = () => {
 
-   // Estados para el péndulo y la simulación
+  // Estados para el péndulo y la simulación
   const [amplitude, setAmplitude] = useState(0.1); // Amplitud en grados
   const [length, setLength] = useState(1.5); // Longitud en metros
   const [gravity, setGravity] = useState(9.86); // Aceleración debido a la gravedad en m/s^2
@@ -20,15 +20,15 @@ export const PendulumSimulator = () => {
   const [periodText, setPeriodText] = useState(""); // Variable para almacenar el texto del periodo
   const [omegaText, setOmegaText] = useState(""); // Variable para almacenar el texto de omega
   const positionChartRef = useRef<Chart | null>(null);
-  const velocityChartRef=  useRef<Chart | null>(null);
-  const accelerationChartRef=  useRef<Chart | null>(null);
+  const velocityChartRef = useRef<Chart | null>(null);
+  const accelerationChartRef = useRef<Chart | null>(null);
   const [positionData, setPositionData] = useState<{ time: number; position: number; }[]>([]);
   const [velocityData, setVelocityData] = useState<{ time: number; velocity: number; }[]>([]);
-  const [accelerationData, setAccelerationData] = useState <{ time: number; acceleration: number; }[]>([]);  // Almacena los datos de posición
+  const [accelerationData, setAccelerationData] = useState<{ time: number; acceleration: number; }[]>([]);  // Almacena los datos de posición
   const [lastUpdateTime, setLastUpdateTime] = useState(0); // Estado para almacenar el último tiempo de actualización
   const [isSlidersLocked, setIsSlidersLocked] = useState(false); //Estado que bloquea los slider cuando la simulacion esta en ejecucion
 
-  
+
   useEffect(() => {
     if (!isRunning) return;
 
@@ -50,30 +50,30 @@ export const PendulumSimulator = () => {
       const h = length - length * Math.cos(thetaMax);
       const y = length * Math.cos(angularPosition) - h * Math.cos(angularPosition);
 
-       // Calcula la velocidad y la aceleración
+      // Calcula la velocidad y la aceleración
       const omega = 2 * Math.PI * frequency;
       const velocity = -amplitude * omega * Math.sin(omega * currentTime);
       const acceleration = -amplitude * omega ** 2 * Math.cos(omega * currentTime);
 
-      if(amplitude=== 0.1){
+      if (amplitude === 0.1) {
         setAmplitude(0)
       }
-      
+
       // Verifica si ha transcurrido al menos 0.1 segundos para agregar un punto en el gráfico
-    if (currentTime - lastUpdateTime >= 0.05) {
-      const newPositionData = [...positionData, { time: currentTime, position: x }];
-      setPositionData(newPositionData);
-      updatePositionChart(newPositionData);
-      setLastUpdateTime(currentTime); // Actualiza el último tiempo de actualización
+      if (currentTime - lastUpdateTime >= 0.05) {
+        const newPositionData = [...positionData, { time: currentTime, position: x }];
+        setPositionData(newPositionData);
+        updatePositionChart(newPositionData);
+        setLastUpdateTime(currentTime); // Actualiza el último tiempo de actualización
 
-      const newVelocityData = [...velocityData, { time: currentTime, velocity: velocity }];
-      setVelocityData(newVelocityData);
-      updateVelocityChart(newVelocityData);
+        const newVelocityData = [...velocityData, { time: currentTime, velocity: velocity }];
+        setVelocityData(newVelocityData);
+        updateVelocityChart(newVelocityData);
 
-      const newAccelerationData = [...accelerationData, { time: currentTime, acceleration: acceleration }];
-      setAccelerationData(newAccelerationData);
-      updateAccelerationChart(newAccelerationData);
-    }
+        const newAccelerationData = [...accelerationData, { time: currentTime, acceleration: acceleration }];
+        setAccelerationData(newAccelerationData);
+        updateAccelerationChart(newAccelerationData);
+      }
 
       ball.setAttribute("cx", `${50 + x * 50}%`);
       ball.setAttribute("cy", `${0 + y * 50 - h * Math.cos(angularPosition)}%`);
@@ -100,16 +100,16 @@ export const PendulumSimulator = () => {
         cancelAnimationFrame(animationRef.current);
       }
     };
-  }, [amplitude, length, gravity, initialTime, isRunning,positionData,lastUpdateTime ,velocityData,accelerationData]); 
+  }, [amplitude, length, gravity, initialTime, isRunning, positionData, lastUpdateTime, velocityData, accelerationData]);
 
-  
+
   // Funciones para controlar la simulación
 
   const startSimulation = () => {
     if (!isRunning) {
       // Inicia la simulación
       setIsRunning(true);
-  
+
       if (pausedTime) {
         const currentTime = performance.now() / 1000;
         setInitialTime(currentTime - pausedTime);
@@ -124,17 +124,17 @@ export const PendulumSimulator = () => {
       setLastUpdateTime(0);
     }
   };
-  
+
   const pauseSimulation = () => {
     // Pausa la simulación
     setIsRunning(false);
     const currentTime = performance.now() / 1000;
     setPausedTime(currentTime - initialTime);
-  
+
     // Desbloquea los sliders cuando se pausa el péndulo
     setIsSlidersLocked(false);
   };
-  
+
   const resetSimulation = () => {
     // Reinicia la simulación
     setIsRunning(false);
@@ -147,7 +147,7 @@ export const PendulumSimulator = () => {
     setPositionData([]);
     setAccelerationData([]); // Borra los datos de posición
 
-  // Elimina la gráfica de posición existente
+    // Elimina la gráfica de posición existente
     if (positionChartRef.current) {
       positionChartRef.current.destroy();
     }
@@ -165,26 +165,26 @@ export const PendulumSimulator = () => {
     setOmegaText("");
     setPeriodText("");
   };
-  
-  const handleLengthChange = (e:any) => {
+
+  const handleLengthChange = (e: any) => {
     // Maneja el cambio en la longitud del péndulo
     const newLength = parseFloat(e.target.value);
     setLength(newLength);
   };
 
-  const handleMouseDown = (e:any) => {
+  const handleMouseDown = (e: any) => {
     // Comienza el arrastre cuando se hace clic en la bola
     setDragging(true);
     setDragStartX(e.clientX);
   };
 
-  const handleMouseMove = (e:any) => {
+  const handleMouseMove = (e: any) => {
     if (dragging) {
       // Calcula el cambio en la posición X del ratón
       const deltaX = e.clientX - dragStartX;
 
       // Calcula el cambio de amplitud proporcional a la velocidad
-      const speedFactor = 0.2; 
+      const speedFactor = 0.2;
       const deltaAmplitude = deltaX * speedFactor;
 
       // Calcula la nueva amplitud
@@ -206,6 +206,7 @@ export const PendulumSimulator = () => {
   const handleMouseUp = () => {
     // Detiene el arrastre cuando se suelta el clic
     setDragging(false);
+    startSimulation()
   };
 
   useEffect(() => {
@@ -248,7 +249,7 @@ export const PendulumSimulator = () => {
 
 
   // Función para manejar cambios en el slider de gravedad
-  const handleGravityChange = (newGravity:any) => {
+  const handleGravityChange = (newGravity: any) => {
     // Si se selecciona una opción de gravedad, actualiza el estado del slider
     if (newGravity !== gravity) {
       setGravity(newGravity);
@@ -258,35 +259,35 @@ export const PendulumSimulator = () => {
       setSelectedGravity(null);
     }
   };
-  const handleSliderChange = (e:any) => {
+  const handleSliderChange = (e: any) => {
     const newGravity = parseFloat(e.target.value);
     setGravity(newGravity);
     setSelectedGravity(null); // Deselecciona cualquier opción de gravedad seleccionada
   };
 
   const calculatePeriod = () => {
-    if(amplitude>0.1){
+    if (amplitude > 0.1) {
       // Calcula el periodo utilizando la fórmula T = 2π√(L/g)
       const period = 2 * Math.PI * Math.sqrt(length / gravity);
 
       // Muestra el resultado en un texto
       setPeriodText(`T es ≈  ${period.toFixed(2)} s`);
     }
-    else{
+    else {
       setPeriodText("");
     }
   };
-  const calculateOmega =()=>{
-    if(amplitude>0.1){
+  const calculateOmega = () => {
+    if (amplitude > 0.1) {
       const frequency = 1 / (2 * Math.PI) * Math.sqrt(gravity / length);
       const omega = 2 * Math.PI * frequency;
       setOmegaText(` W es ≈ ${omega.toFixed(2)} rads/s`)
     }
-    else{
+    else {
       setOmegaText("");
     }
   }
-  
+
   const [showPositionChart, setShowPositionChart] = useState(false);
 
   const initializePositionChart = () => {
@@ -336,7 +337,7 @@ export const PendulumSimulator = () => {
       });
     }
   }
-  
+
   const [isAnyChartVisible, setIsAnyChartVisible] = useState(false);
 
   const updatePositionChart = (data: any) => {
@@ -361,7 +362,7 @@ export const PendulumSimulator = () => {
     setIsAnyChartVisible(!showPositionChart || showVelocityChart || showAccelerationChart);
 
   };
-  
+
   const [showVelocityChart, setShowVelocityChart] = useState(false);
 
   const initializeVelocityChart = () => {
@@ -506,105 +507,138 @@ export const PendulumSimulator = () => {
     setShowAccelerationChart(!showAccelerationChart);
     setIsAnyChartVisible(showPositionChart || showVelocityChart || !showAccelerationChart);
   };
-  
-  return (
-    <div className=" w-full h- h-full p-4 text-center bg-white">
-      <h1 className="text-2xl font-bold mb-4">Péndulo Simple</h1>
-      <div className="absolute bg-gray-100 rounded-lg w-80 h-72 md:inset-x-20  ">
-           <h1 className="absolute bg-red-500 top-4 font-bold text-2xl left-12 w-2/3 text-white">Condiciones</h1>
-           <p className="absolute top-16 text-black text-base font-bold w-22 p-2"> 1. Oscilaciones pequeñas : Entre 0° y 5° - A= 0,06 M </p>
-           <p className="absolute top-32 text-black text-base font-bold w-22 p-2 ml-3"> 2. Sin Friccion :   ΣF= mg </p>
-           <p className="absolute top-44 text-black text-base font-bold w-22 p-2 ml-3"> 3. Hilo inextensible. </p>
-           <p className="absolute top-56 text-black text-base font-bold w-22 p-2 ml-3"> 4. Masa Puntual. </p>
-      </div>
-        <div className="relative h-96 w-1/2 -right-1/4">
-          {/* Espacio donde se muestra el tiempo del pendulo*/}
-          <div className="absolute bg-gray-200 rounded-lg w-36 h-1/6 md:inset-x-24">
-              <p className=" mt-4 text-lg font-semibold text-black"> {time.toFixed(2)} seg</p>
-          </div>
-           {/* se dibuja el pendulo, y el soporte*/}
-          <svg width="160%" height="100%" className="px-18 -ml-32">
-            <defs>
-              {/* Cuerda del pendulo*/}
-              <linearGradient id="yellowGradient" x1="0%" y1="10%" x2="0%" y2="110%">
-                <stop offset="0%" style={{ stopColor: "orange", stopOpacity: 1 }} />
-                <stop offset="100%" style={{ stopColor: "dark", stopOpacity: 1 }} />
-              </linearGradient>
-              {/* Soporte del pendulo */}
-              <linearGradient id="supportGradient" x1="0%" y1="-30%" x2="0%" y2="100%">
-                <stop offset="0%" style={{ stopColor: "gray", stopOpacity: 0.3 }} />
-                <stop offset="100%" style={{ stopColor: "gray", stopOpacity: 1 }} />
-              </linearGradient>
-            </defs>
 
-            <line
-              x1="50%"
-              y1="10%"
-              x2="50%"
-              y2="50%"
-              stroke="url(#yellowGradient)"
-              strokeWidth="3"
-              id="pendulum"
-            />
-            <rect
-              x="38%"
-              y="0%"
-              width="0.5%"
-              height="90%" 
-              fill="url(#supportGradient)" 
-              id="support2"
-            />
-            <rect
-              x="35%"
-              y="90%"
-              width="10%"
-              height="2%"
-              fill="gray"
-              id="labSupport"
-            />
-            <rect
-              x="38%"
-              y="0%"
-              width="12%"
-              height="1.5%"
-              fill="gray"
-              id="labSupport"
-            />
-          <defs>
-            {/* masa del pendulo */}
-            <radialGradient id="redGradient" cx="50%" cy="30%" r="50%">
-              <stop offset="0%" style={{ stopColor: "red", stopOpacity: 1 }} />
-              <stop offset="100%" style={{ stopColor: "darkred", stopOpacity: 1 }} />
-            </radialGradient>
-          </defs>
-          <circle
-            cx="50%"
-            cy="60%"
-            r="12"
-            fill="url(#redGradient)"
-            id="ball"
-            onMouseDown={handleMouseDown} 
-            style={{ cursor: "grab" }}
-          />
-          <circle
-            cx="50%"
-            cy="100%"
-            r="12"
-            fill="rgba(0, 0, 0, 0.4)"
-            id="shadow"
-            filter="blur(8px)" 
-          />
-        </svg>
-      </div>
-      <div className=" absolute flex items-center justify-center space-x-4 right-16 top-32">
-          {/* Botones del pendulo */}
-          <div>
-            <button
-              onClick={startSimulation}
-              className="bg-green-500 hover:bg-green-600 text-white font-bold px-4 py-2 mr-2 text-sm"
+  return (
+    <div className="min-h-screen p-4 bg-white">
+      <h1 className="text-2xl font-bold mb-6 text-center">Péndulo Simple</h1>
+
+      {/* Contenedor principal - Siempre 1 columna hasta lg */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 relative">
+        <div className="bg-gray-100 rounded-lg p-6 w-full sm:w-2/3 h-72 lg:col-start-1 mx-auto flex flex-col items-center justify-center">
+          <h1 className="bg-red-500 w-3/4 font-bold text-2xl text-white p-2 mb-4 rounded text-center">
+            Condiciones
+          </h1>
+          <div className="w-full max-w-md space-y-4 px-4">
+            <p className="text-black text-base font-bold">1. Oscilaciones pequeñas: Entre 0° y 5° - A= 0,06 M</p>
+            <p className="text-black text-base font-bold">2. Sin Fricción: ΣF= mg</p>
+            <p className="text-black text-base font-bold">3. Hilo inextensible.</p>
+            <p className="text-black text-base font-bold">4. Masa Puntual.</p>
+          </div>
+        </div>
+        <div className="lg:col-start-2 lg:row-span-2 flex justify-center items-center h-96 w-full  lg:order-none">
+          <div className="relative w-full max-w-2xl h-96 mx-auto">
+            <svg
+              width="100%"
+              height="100%"
+              viewBox="0 0 400 600"
+              preserveAspectRatio="xMidYMid meet"
+              className="relative"
             >
-              Start
-            </button>
+              {/* Fondo del reloj con estilo mejorado */}
+              <rect
+                x="95%"
+                y="50"
+                width="140"
+                height="50"
+                rx="12"
+                fill="#f3f4f6"
+                transform="translate(-70 0)"
+                stroke="#d1d5db"
+                strokeWidth="2"
+                className="shadow-md"
+              />
+
+              {/* Texto del tiempo con mejor estilo */}
+              <text
+                x="95%"
+                y="80"
+                fontSize="24"
+                fontWeight="600"
+                fill="#1f2937"
+                textAnchor="middle"
+                dominantBaseline="middle"
+                className="font-mono"
+              >
+                {time.toFixed(2)} seg
+              </text>
+
+              {/* Elementos del péndulo */}
+              <defs>
+                <linearGradient id="yellowGradient" x1="0%" y1="10%" x2="0%" y2="110%">
+                  <stop offset="0%" style={{ stopColor: "orange", stopOpacity: 1 }} />
+                  <stop offset="100%" style={{ stopColor: "dark", stopOpacity: 1 }} />
+                </linearGradient>
+
+                <linearGradient id="supportGradient" x1="0%" y1="-30%" x2="0%" y2="100%">
+                  <stop offset="0%" style={{ stopColor: "gray", stopOpacity: 0.3 }} />
+                  <stop offset="100%" style={{ stopColor: "gray", stopOpacity: 1 }} />
+                </linearGradient>
+
+                <radialGradient id="redGradient" cx="50%" cy="30%" r="50%">
+                  <stop offset="0%" style={{ stopColor: "red", stopOpacity: 1 }} />
+                  <stop offset="100%" style={{ stopColor: "darkred", stopOpacity: 1 }} />
+                </radialGradient>
+              </defs>
+
+              {/* Estructura del péndulo */}
+              <rect
+                x="38%"
+                y="0%"
+                width="0.5%"
+                height="90%"
+                fill="url(#supportGradient)"
+                id="support2"
+              />
+              <rect
+                x="35%"
+                y="90%"
+                width="10%"
+                height="2%"
+                fill="gray"
+                id="labSupport"
+              />
+              <rect
+                x="38%"
+                y="0%"
+                width="12%"
+                height="1.5%"
+                fill="gray"
+                id="labSupport"
+              />
+              <line
+                x1="50%"
+                y1="15%"
+                x2="50%"
+                y2="50%"
+                stroke="url(#yellowGradient)"
+                strokeWidth="3"
+                id="pendulum"
+              />
+              <circle
+                cx="50%"
+                cy="60%"
+                r="12"
+                fill="url(#redGradient)"
+                id="ball"
+                onMouseDown={handleMouseDown}
+                style={{ cursor: "grab" }}
+              />
+              <circle
+                cx="50%"
+                cy="100%"
+                r="12"
+                fill="rgba(0, 0, 0, 0.4)"
+                id="shadow"
+                filter="blur(8px)"
+              />
+            </svg>
+          </div>
+        </div>
+
+        {/* Sección Controles y Sliders - Apilados en móvil/tablet */}
+        <div className="space-y-4 lg:col-start-3">
+          {/* Botones de control */}
+          <div className="flex flex-wrap gap-2 justify-center">
             <button
               onClick={pauseSimulation}
               className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold px-4 py-2 mr-2 text-sm"
@@ -633,133 +667,136 @@ export const PendulumSimulator = () => {
                 Omega
               </button>
             )}
-
-            {isSlidersLocked && (
-              <p className="text-red-500 font-semibold -mr-12 mt-2 top-10 w-42 text-sm flex items-center justify-center ">No se pueden modificar los sliders mientras el péndulo está en movimiento.</p>
-            )}
           </div>
-        </div>
-      {/* sliders del pendulo */}
-      <div className=" absolute flex justify-center bg-gray-100 w-1/3 right-16 -mr-10 top-1/3 text-black">
-        <div>
-            <div className="my-4 text-sm">
-              <label>Longitud (m): {length.toFixed(2)}</label>
-              <input
-                type="range"
-                min="0.70"
-                max="1.5"
-                step="0.01"
-                value={length}
-                onChange={handleLengthChange}
-                disabled={isSlidersLocked} 
-              />
-            </div>
-            <div className="my-4 text-sm">
-              <label>Gravedad (m/s²): {gravity.toFixed(2)}</label>
-              <input
-                type="range"
-                min="1"
-                max="9.86"
-                step="0.01"
-                value={gravity}
-                onChange={handleSliderChange}
-                disabled={isSlidersLocked} 
-              />
 
-              <div className=" mt-4 space-x-2">
+          {/* Sliders */}
+          <div className="bg-gray-100 p-4 rounded-lg max-w-md mx-auto mt-4 lg:mt-0 ">
+            <div className="space-y-8">
+              <div className="space-y-2 ml-10">
+                <label>Longitud (m): {length.toFixed(2)}</label>
                 <input
-                  type="radio"
-                  id="earth"
-                  name="gravity"
-                  value="9.86"
-                  checked={selectedGravity === 9.86}
-                  onChange={() => handleGravityChange(9.86)}
+                  type="range"
+                  min="0.70"
+                  max="1.5"
+                  step="0.01"
+                  value={length}
+                  onChange={handleLengthChange}
                   disabled={isSlidersLocked}
                 />
-                <label htmlFor="earth">Tierra</label>
-                <input
-                  type="radio"
-                  id="mars"
-                  name="gravity"
-                  value="3.71"
-                  checked={selectedGravity === 3.71}
-                  onChange={() => handleGravityChange(3.71)}
-                  disabled={isSlidersLocked}
-                />
-                <label htmlFor="mars">Marte</label>
+              </div>
 
+              <div className="space-y-2 ml-10">
+                <label>Gravedad (m/s²): {gravity.toFixed(2)}</label>
                 <input
-                  type="radio"
-                  id="moon"
-                  name="gravity"
-                  value="1.62"
-                  checked={selectedGravity === 1.62}
-                  onChange={() => handleGravityChange(1.62)}
+                  type="range"
+                  min="1"
+                  max="9.86"
+                  step="0.01"
+                  value={gravity}
+                  onChange={handleSliderChange}
                   disabled={isSlidersLocked}
                 />
-                <label htmlFor="moon">Luna</label>
+                <div className="grid grid-cols-2 gap-2 mt-4">
+                  <input
+                    type="radio"
+                    id="earth"
+                    name="gravity"
+                    value="9.86"
+                    checked={selectedGravity === 9.86}
+                    onChange={() => handleGravityChange(9.86)}
+                    disabled={isSlidersLocked}
+                  />
+                  <label htmlFor="earth">Tierra</label>
+                  <input
+                    type="radio"
+                    id="mars"
+                    name="gravity"
+                    value="3.71"
+                    checked={selectedGravity === 3.71}
+                    onChange={() => handleGravityChange(3.71)}
+                    disabled={isSlidersLocked}
+                  />
+                  <label htmlFor="mars">Marte</label>
 
-                <input
-                  type="radio"
-                  id="venus"
-                  name="gravity"
-                  value="24.79"
-                  checked={selectedGravity === 8.87}
-                  onChange={() => handleGravityChange(8.87)}
-                  disabled={isSlidersLocked}
-                />
-                <label htmlFor="Venus">
-                   Venus
-                </label>
+                  <input
+                    type="radio"
+                    id="moon"
+                    name="gravity"
+                    value="1.62"
+                    checked={selectedGravity === 1.62}
+                    onChange={() => handleGravityChange(1.62)}
+                    disabled={isSlidersLocked}
+                  />
+                  <label htmlFor="moon">Luna</label>
+
+                  <input
+                    type="radio"
+                    id="venus"
+                    name="gravity"
+                    value="24.79"
+                    checked={selectedGravity === 8.87}
+                    onChange={() => handleGravityChange(8.87)}
+                    disabled={isSlidersLocked}
+                  />
+                  <label htmlFor="Venus">
+                    Venus
+                  </label>
+                </div>
+              </div>
+
+              {/* Resultados */}
+              <div className="space-y-2">
+                {periodText && <p className="font-semibold text-sm">{periodText}</p>}
+                {omegaText && <p className="font-semibold text-sm">{omegaText}</p>}
               </div>
             </div>
-            {periodText && (
-              <p className=" font-semibold mt-2 text-sm">{periodText}</p>
-            )}
-            {omegaText && (
-              <p className=" font-semibold mt-2 text-sm">{omegaText}</p>
-            )}
-        </div>     
-      </div>
-      <div
-          className={`absolute flex flex-row bg-red-500 space-x-2 rounded-lg w-auto h-72 top-[80%] left-96 ${isAnyChartVisible ? "bottom-6" : "-bottom-96"} transition-transform ease-in-out duration-500`}
-          style={{ padding: "5px", opacity: isAnyChartVisible ? 1 : 0 }} // Aplica el margen y la opacidad según la visibilidad de las gráficas
-        >
-          {showPositionChart && (
-            <div className="mb-2 bg-white">
-              <canvas id="position-chart" width="280" height="280"></canvas>
+          </div>
+        </div>
+
+        {/* Sección Gráficas - Inferior */}
+        <div className="lg:col-span-full mt-8">
+          <div className="flex flex-wrap justify-center gap-4 mb-4">
+            <button
+              onClick={handleShowPositionChart}
+              className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 text-lg font-bold"
+            >
+              {showPositionChart ? "Ocultar Posición" : "Mostrar Posición"}
+            </button>
+            <button
+              onClick={handleShowvelocityChart}
+              className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 text-lg font-bold"
+            >
+              {showVelocityChart ? "Ocultar velocidad" : "Mostrar velocidad"}
+            </button>
+            <button
+              onClick={handleAccelerationChart}
+              className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 text-lg font-bold"
+            >
+              {showAccelerationChart ? "Ocultar Aceleracion" : "Mostrar Aceleracion"}
+            </button>
+          </div>
+
+          <div className={`${isAnyChartVisible ? "visible" : "invisible"}`}>
+            <div className="flex flex-col md:flex-row justify-center items-center gap-4 w-full max-w-4xl mx-auto px-4">
+              {showPositionChart && (
+                <div className="w-full md:w-72 h-72 bg-white p-2 rounded-lg shadow-lg flex justify-center items-center">
+                  <canvas id="position-chart" width="280" height="280"></canvas>
+                </div>
+              )}
+              {showVelocityChart && (
+                <div className="w-full md:w-72 h-72 bg-white p-2 rounded-lg shadow-lg flex justify-center items-center">
+                  <canvas id="velocity-chart" width="280" height="280"></canvas>
+                </div>
+              )}
+              {showAccelerationChart && (
+                <div className="w-full md:w-72 h-72 bg-white p-2 rounded-lg shadow-lg flex justify-center items-center">
+                  <canvas id="acceleration-chart" width="280" height="280"></canvas>
+                </div>
+              )}
             </div>
-          )}
-          {showVelocityChart && (
-            <div className="mb-2 bg-white">
-              <canvas id="velocity-chart" width="280" height="280"></canvas>
-            </div>
-          )}
-          {showAccelerationChart && (
-            <div className="mb-2 bg-white">
-              <canvas id="acceleration-chart" width="280" height="280"></canvas>
-            </div>
-          )}
-       </div>
-      <div className="my-4">
-        <div className=" relative flex flex-col -top-28 mt-24 w-1/3 justify-center -right-14" >
-                <button
-                  onClick={handleShowPositionChart}
-                  className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 mt-4 w-2/3 text-lg font-bold"
-                >
-                  {showPositionChart ?  "Ocultar Posición" : "Mostrar Posición"}
-                </button>
-                <button
-                  onClick={handleShowvelocityChart}
-                  className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 mt-4 w-2/3 text-lg font-bold"
-                >
-                  {showVelocityChart ? "Ocultar velocidad" : "Mostrar velocidad"}
-                </button>
-                <button onClick={handleAccelerationChart } className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 mt-4 w-2/3 text-lg font-bold">
-                    {showAccelerationChart ? "Ocultar Aceleracion" : "Mostrar Aceleracion"}
-                </button>
+          </div>
         </div>
       </div>
     </div>
   );
-};
+}
