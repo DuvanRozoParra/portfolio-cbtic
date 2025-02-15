@@ -131,7 +131,7 @@ export function TeacherAbout() {
             className="absolute inset-0 bg-black opacity-50"
             aria-hidden="true"
           />
-          <h1 className="absolute inset-0 flex items-center justify-center text-white text-4xl md:text-5xl font-bold">
+          <h1 className="absolute inset-0 flex items-center justify-center text-white text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold">
             Nuestros Docentes:
           </h1>
         </div>
